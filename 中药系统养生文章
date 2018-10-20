@@ -1,0 +1,66 @@
+# coding=utf-8
+from selenium import webdriver
+
+from bs4 import BeautifulSoup as bs
+
+import re
+
+import time
+
+import random
+
+filepath="C:\\Users\\User\\Desktop\\工作\\养生";
+# 获取笑话
+
+def get_certain_joke(html):
+
+    """get the joke of the html"""
+                
+    driver = webdriver.PhantomJS(executable_path='C:\\Users\\User\\Downloads\\phantomjs_xpgod\\phantomjs-2.1.1-windows\\bin\\phantomjs.exe')
+   
+    driver.implicitly_wait(3) 
+    
+    driver.get(html) 
+   
+    time.sleep(3+random.uniform(-1,1)) 
+    
+    ps=driver.page_source 
+    
+    soup = bs(ps,'html5lib')
+    
+    #t1 = soup.findAll('a', href=re.compile("^(/tcm/nav/healthDetail)((?!:).)*$"))  
+      
+    fp=open(filepath+".txt","a");
+        
+    #for t2 in t1:
+        
+    #t3 = "http://zcy.ckcest.cn/" + t2.get('href')
+    
+    #driver.get(t3) 
+    
+    #time.sleep(3+random.uniform(-1,1)) 
+    
+    #ps=driver.page_source 
+    
+    #soup = bs(ps,'html5lib')
+    
+    t4 = soup.find('div', {'class':'list-box'}).get_text()
+    
+    fp.write(t4.__str__());
+    
+    print(t4)
+    
+    fp.close();
+
+url_joke = "http://zcy.ckcest.cn/tcm/nav/healthDetail?articleId="
+i = 0
+while i <= 462484:
+    print(i)
+    urlTmp = url_joke
+    urlTmp += str(i);
+    print(urlTmp)
+    i = i + 1 ;
+    try:
+      get_certain_joke(urlTmp);
+    except ValueError as e:
+      print('ValueError:',e)
